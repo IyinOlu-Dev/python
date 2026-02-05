@@ -1,15 +1,3 @@
-
-# while True:
-#     bill = input("What was the total bill?: $")
-#     try:
-#         bill = float(bill)
-#         break
-#     except ValueError:
-#         bill = print("Invalid input Input values only")
-# percentage_tip = input("What percentage tip are you willing to give: ")
-# # percentage_tip = float(percentage_tip.replace("%",""))
-# # people = int(input("How many people are splitting the bill"))
-
 def is_float(value):
     while True:
         try:

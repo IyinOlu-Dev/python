@@ -1,0 +1,11 @@
+# VS Code
+*.code-workspace
+.vscode/
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Mac junk
+.DS_Store

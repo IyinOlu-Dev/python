@@ -1,0 +1,60 @@
+# Covers Visual Studio Code and VS Code-based editors: VS Code, VSCodium, Cursor, Windsurf
+# Reference: https://code.visualstudio.com/docs/editor/workspaces
+
+# User-specific settings
+.vscode/**/settings.json
+.vscode/**/launch.json
+.vscode/**/tasks.json
+.vscode/**/keybindings.json
+
+# Workspace storage (machine-specific state)
+.vscode/**/workspaceStorage/
+.vscode/**/globalStorage/
+
+# User snippets
+.vscode/**/snippets/
+
+# User-specific profiles
+.vscode/**/profiles/
+
+# Extension recommendation overrides (user-specific)
+# Uncomment if you don't want to share extension recommendations:
+# .vscode/extensions.json
+
+# Sensitive or high-churn files
+.vscode/**/.ropeproject
+.vscode/**/tags
+
+# Workspace files (contain local machine paths)
+*.code-workspace
+
+# Local History extension
+.history/
+
+# GitLens stored data
+.vscode/**/gitlens/
+
+# GitHub Copilot session data
+.vscode/**/github.copilot/
+
+# SonarLint plugin
+.vscode/**/sonarlint/
+
+# REST Client extension (private environment variables)
+.vscode/*.env.json
+http-client.private.env.json
+
+# Thunder Client extension (local data)
+.vscode/**/thunder-tests/
+
+# Prettier cache
+.prettiercache
+
+# ESLint cache
+.eslintcache
+
+# Stylelint cache
+.stylelintcache
+
+# Built VS Code Extensions
+*.vsix

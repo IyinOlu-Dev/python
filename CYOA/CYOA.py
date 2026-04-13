@@ -31,4 +31,5 @@ while game_over == False:
                     print("HAHHAHAHA.....\n you got lost\n It's called the forest of the lost for a reason stupid")
                     game_over = True
                 else: 
+                    game_over = True
                     print("Congratulations, you now know you care about an unknown treasure than a human life")

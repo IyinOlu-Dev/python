@@ -4,6 +4,8 @@ price = float(input("How much was the bill?: "))
 
 tip_type = input('Do you want to give "percentage" or "set amout"').lower()
 
+''' ------------ Confirm tip type--------------------------'''
+
 while tip_type not in ("set amount", "percentage"):
     tip_type = input('Please enter "percentage" or "set amout"').lower()
 tip = float(input("How much is the tip?: "))
@@ -16,5 +18,5 @@ elif tip_type == "percentage":
     total = (price + (tip/100)*price)
     split = total/people
 
-
+'''------------------------Print Result-----------------------'''
 print(f"Each person pays: ${split:.2f}")

@@ -1,7 +1,6 @@
 import string
 import random
 
-
 caps = list(string.ascii_uppercase)
 lower = list(string.ascii_lowercase)
 digits = list(string.digits)
@@ -9,6 +8,7 @@ special = list(string.punctuation)
 
 
 def choose():
+    '''Prompts for password requirements and returns a list of characters based on the user's choices.'''
     length = int(input("How long do you want the password to be?: "))
     while length < 8:
         print("\n\n⚠️Password must be at least 8 characters long")
@@ -31,6 +31,7 @@ def choose():
     return password_choice
 
 def randomized():
+    '''Prompts for password length and returns a list of characters based on the user's choice.'''
     length = int(input("How long do you want the password to be?: "))
     while length < 8:
         print("\n\n⚠️Password must be at least 8 characters long")
@@ -45,6 +46,7 @@ def randomized():
     return(password_chars)
 
 def display_password(password):
+    '''Shuffles the password characters and prints the final password.'''
     random.shuffle(password)
     print ("Your password is "+"".join(password))
 

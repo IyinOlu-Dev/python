@@ -30,6 +30,7 @@ def find_post(id):
     for i, post in enumerate(my_posts):
         if str(post['id']) == str(id):
             return post, i
+    return None, None
 
     # for post in my_posts:
     #     if int(post['id']) == int(id):
@@ -38,6 +39,10 @@ def find_post(id):
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
+@app.get("/posts/return")
+def return_posts():
+    return {"data": my_posts}
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_post(new_post: Post):
@@ -53,8 +58,8 @@ def get_latest_post():
 
 @app.get("/posts/{id}")
 def get_post(id: str, response: Response):
-    post = find_post(id)
-    if not post:
+    post, index = find_post(id)
+    if index is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f"Post with id: {id} not found")
     return {"data": post}
@@ -62,7 +67,7 @@ def get_post(id: str, response: Response):
 @app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: str):
     post, index = find_post(id)
-    if not post:
+    if post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f"Post with id: {id} not found")
     my_posts.pop(index)

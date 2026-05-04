@@ -1,3 +1,4 @@
+from time import time
 from typing import Optional
 from fastapi import FastAPI, Body, Response, status, HTTPException
 from pydantic import BaseModel
@@ -11,7 +12,7 @@ class Post(BaseModel):
     title: str
     content: str
     published: bool = True #default value is True, if not provided, it will be True
-    rating: Optional[int] = None #optional field, can be None
+    rating: Optional[int] = 0 #optional field, can be None
 
 while True:
     try :
@@ -24,6 +25,7 @@ while True:
     except Exception as error:
         print("Database connection failed")
         print("Error: ", error)
+        time.sleep(2)
 
 
 my_posts = [
@@ -53,9 +55,9 @@ async def root():
 
 @app.get("/posts")
 def get_posts():
-    cursor.execute("SELECT * FROM local")
+    cursor.execute("""SELECT * FROM local""")
     posts = cursor.fetchall()
-    # print(posts)
+    print(posts)
     return {"data ": posts}
 
 @app.get("/posts/return")
@@ -63,11 +65,15 @@ def return_posts():
     return {"data": my_posts}
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_post(new_post: Post):
-    post_dict = new_post.model_dump()
-    post_dict['id'] = randrange(0, 1000000)
-    my_posts.append(post_dict)
-    return {"data": post_dict}
+def create_post(post: Post):
+    cursor.execute("""INSERT INTO local (title, content, published) 
+                    VALUES (%s, %s, %s)
+                    RETURNING *""", 
+                    (post.title, post.content, post.published))
+    new_post = cursor.fetchone()
+    conn.commit()
+
+    return {"data": new_post}
 
 @app.get("/posts/latest")
 def get_latest_post():
@@ -76,8 +82,10 @@ def get_latest_post():
 
 @app.get("/posts/{id}")
 def get_post(id: str, response: Response):
-    post, index = find_post(id)
-    if index is None:
+    cursor.execute("""SELECT * FROM local WHERE id = %s""", str((id)))
+    post = cursor.fetchone()
+    print(post)
+    if post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f"Post with id: {id} not found")
     return {"data": post}

@@ -21,7 +21,7 @@ class Post(BaseModel):
     rating: Optional[int] = 0 #optional field, can be None
 
 
-@app.get("/")
+@app.get("/posts")
 async def root():
     for p in posts: 
         return {"data" : [{"title": p['title'], "content": p['content'][:300], "rating": p['rating']} for p in posts]}

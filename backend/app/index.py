@@ -92,21 +92,29 @@ def get_post(id: str, response: Response):
 
 @app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: str):
-    post, index = find_post(id)
+    
+    cursor.execute ("""DELETE FROM local WHERE id = %s RETURNING * """, str((id)))
+    post = cursor.fetchone()
+    conn.commit()
     if post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f"Post with id: {id} not found")
-    my_posts.pop(index)
+    # my_posts.pop(index)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @app.put("/posts/{id}")
 def update_post(id: str, updated_post: Post):
-    post, index = find_post(id)
-    if post is None:
+    cursor.execute ("""UPDATE local SET title = %s, content = %s, published = %s 
+                    WHERE id = %s RETURNING * """, 
+                    (updated_post.title, updated_post.content, updated_post.published, str((id))))
+    updated_post = cursor.fetchone()
+    conn.commit()
+    # post, index = find_post(id)
+    if updated_post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f"Post with id: {id} not found")
-    updated_post_dict = updated_post.model_dump()
-    updated_post_dict['id'] = post['id']
-    my_posts[index] = updated_post_dict
-    return {"data": updated_post_dict}
+    # updated_post_dict = updated_post.model_dump()
+    # updated_post_dict['id'] = post['id']
+    # my_posts[index] = updated_post_dict
+    return {"data": updated_post}
